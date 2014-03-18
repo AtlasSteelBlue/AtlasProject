@@ -1,0 +1,117 @@
+
+
+title_pic{
+/*position: relative; */
+  
+}
+/*img{
+top:0px;
+width:100px;
+
+}*/
+
+/* .bg{
+FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,src='background3.jpg' ,sizingMethod='scale')} */
+
+#BodyBg{ 
+    width: 100%;  
+    height: 100%;  
+    position: absolute;  
+    left: 0px;  
+    top: 0px;  
+    z-index: 0; 
+} 
+ 
+.stretch { 
+    width:100%; 
+    height:100%; 
+}
+
+h2 { 
+color:#B4B8BF;
+  position: absolute; 
+
+ font-family: "Rockwell Extra Bold", "Rockwell Bold", monospace;
+
+ font-size:80px;
+  top:0%;
+   left: 15%; 
+   width: 130%; 
+}
+
+#container {
+ 
+    border:3px solid #157FCC;
+	
+background: #ffffff;
+ color: #ffffff;
+ background-color: rgba(0, 255, 255,0.5)!important;*/
+}
+#toolbar {
+    border-color: #000000;
+}
+#container2 {
+/* position:absolute;
+bottom: 10%; */
+ min-height:550px;
+background: #ffffff;
+ color: #ffffff;
+ background-color: rgba(255, 255, 255,0.5)!important;
+ border:3px solid #157FCC;;
+}
+
+
+
+
+
+
+
+#basic-slider{
+position:absolute;
+top: 95%;
+left:35%;
+
+}
+
+
+.panel2-container {
+position:absolute;
+top:25%;
+right:0px;
+background-color:#c3daf9;
+color:#c3daf9;
+
+
+
+    margin-bottom: 20px;
+}
+
+
+.panel3-container {
+position:absolute;
+top:80%;
+right:0px;
+background-color:#c3daf9;
+color:#c3daf9;
+
+
+    margin-bottom: 20px;
+}
+
+
+.panel4-container {
+position:absolute;
+top:100%;
+
+background-color:#c3daf9;
+color:#c3daf9;
+
+
+    margin-bottom: 0px;
+}
+
+
+
+
+
+
