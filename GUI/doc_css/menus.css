@@ -60,7 +60,27 @@ background: #ffffff;
  border:3px solid #157FCC;;
 }
 
+#container5 {
+/*   position:absolute;  */
+    border:3px solid #157FCC;
+	min-height:30px;
+background: #ffffff;
+ color: #ffffff;
+ background-color: rgba(255, 255, 255,0.5)!important;
 
+/*  width:100%;  */
+}
+
+h3 { 
+color:#B4B8BF;
+  position: absolute; 
+ font-family: "Rockwell Extra Bold", "Rockwell Bold", monospace;
+/* width:100%; */
+ font-size:10px;
+  
+   
+  /*  width: 130%;  */
+}
 
 
 
