@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Swiss World Atlas</title>
+<link rel="stylesheet" href="../../../libraries/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+<script src="../../../libraries/OpenLayers/OpenLayers.debug.js"></script>
+<script src="../../../scripts/OpenLayers/SWA.js"></script>
+<script src="../../../scripts/SWAParser.js"></script>
+<script src="../../../scripts/URI.js"></script>
+<script src="../../../scripts/sprintf-0.6.js"></script>
+
+<script type="text/javascript">
+
+var swa;
+var map;
+
+function createMap(module) {
+
+	var options = {
+		units: 'm',
+		wrapDateLine: false,
+		controls: [],
+		allOverlays: true
+	};
+
+	map = new OpenLayers.Map('map', options);
+/*
+	var module = "/karten/174-1_erde_uebersicht/modul.xml";
+	// var module = "/karten/176-1_erde_vegetation/modul.xml";
+	// var module = "/karten/004-1_schweiz_uebersicht/modul.xml";
+	var swa = new SWAParser();
+*/
+	swa.loadMap(module, map);
+	
+	map.addControl(new OpenLayers.Control.LayerSwitcher({
+		roundedCorner: true
+	}));
+
+	map.addControl(new OpenLayers.Control.Navigation({ documentDrag: true }));
+	map.addControl(new OpenLayers.Control.PanZoomBar({ slideRatio: 0.1, fractionalZoom: true }));
+	map.addControl(new OpenLayers.Control.MousePosition({ numDigits: 0 }));
+	map.addControl(new OpenLayers.Control.ScaleLine());
+    map.addControl(new OpenLayers.Control.Attribution());
+}
+
+function init() {
+	
+	swa = new SWAParser();
+	swa.loadAtlas();
+}
+
+function load(link) {
+	console.log(link);
+	
+	if (map) {
+		map.destroy();
+	}
+	createMap('/karten/' + link, map);
+}
+
+</script>
+
+</head>
+<body onload="init()">
+	<div id="map" style="position:absolute;left:300px;top:0;right:0;bottom:0"></div>
+	<div id="index" style="position:absolute;left:0;top:0;width:300px;bottom:0;background-color:#eee;overflow:scroll">
+		<ul id="list"></ul>
+	</div>
+</body>
+</html>

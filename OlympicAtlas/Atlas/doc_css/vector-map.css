@@ -1,0 +1,96 @@
+body {
+	font-family: 'Lucida Grande', sans-serif;
+	font-size: 85%;
+}
+
+#map {
+	position:absolute;
+	left:0;
+	top:0;
+	right:150px;
+	bottom:0px;
+	background-color: #eee;
+}
+
+.panel {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 149px;
+	border-left: 1px solid #aaa;
+}
+
+.panel #title {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding-left: 10px;
+	padding-top: 10px;
+	width: 139px;
+}
+
+.panel #info {
+	position:absolute;
+	right: 0px;
+	top: 30px;
+	padding-left: 10px;
+	width: 139px;
+	font-size: 10px;
+	font-weight: bold;
+	height: 60px;
+	line-height: 20px;
+	border-bottom: 1px solid #ddd;
+}
+
+.panel #area {
+	position:absolute;
+	right: 0px;
+	top: 60px;
+	padding-left: 10px;
+	width: 139px;
+	font-size: 10px;
+	font-weight: bold;
+	height: 20px;
+	line-height: 20px;
+	border-bottom: 1px solid #ddd;
+}
+
+.panel #index {
+	position: absolute;
+	padding: 0;
+	right: 0;
+	top: 105px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: #fff;
+	overflow: scroll;
+}
+
+.panel h4 {
+	margin-top: 0;
+	margin-bottom: 10px;
+	padding-left: 8px;
+}
+
+.panel #list {
+	font-size: 10px;
+	margin: 0;
+}
+
+.panel ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+
+.panel li {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 8px;
+	cursor: pointer;
+}
+
+.panel li:hover {
+	background-color: rgb(226,239,248);
+}

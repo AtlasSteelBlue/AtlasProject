@@ -1,0 +1,14 @@
+body {
+	font-family: 'Lucida Grande', Helvetica, Sans-Serif;
+	font-size: 80%;
+}
+
+a:link {
+	color: #05d;
+	text-decoration: none
+}
+
+a:visited {
+	color: #7af;
+	text-decoration: none
+}

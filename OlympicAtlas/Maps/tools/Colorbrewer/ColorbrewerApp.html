@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Colorbrewer Application</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+	
+	$('.receiver #panel').on('dragenter', function(evt) {
+	 	evt.preventDefault();
+		return false;
+	}).on('dragover', function(evt) {
+	 	evt.preventDefault();
+		$(this).addClass('hilite');
+		return false;
+	}).on('dragleave', function(evt) {
+		$(this).removeClass('hilite');
+	 	evt.preventDefault();
+		return false;
+	}).on('drop', function(evt) {
+		evt.stopPropagation();
+		$(this).removeClass('hilite');
+		// $(this).empty();
+		var src = evt.originalEvent.dataTransfer.getData("text/html");
+		$(this).html(src);
+		return false;
+	}).on('mouseover', function(evt) {
+		var $target = $(evt.target);
+		if ($target.hasClass('box')) {
+			$('#info').text($target.css('background-color'));
+		}
+	}).on('mouseout', function(evt) {
+		$('#info').text('');
+	});
+	
+});
+
+</script>
+
+<style>
+
+body {
+	font-family: 'Lucida Grande', sans-serif;
+	font-size: 80%;
+	margin: 20px;
+}
+
+.receiver #panel {
+	display: inline-block;
+	min-width: 120px;
+	height: 25px;
+	text-align: center;
+	line-height: 25px;
+	box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+.receiver .hilite {
+	border: 1px dotted #000;
+}
+
+.receiver .box {
+	display: inline-block;
+	width: 60px;
+	height: 25px;
+}
+
+.receiver #info {
+	margin-top: 10px;
+}
+
+</style>
+
+</head>
+<body class="receiver">
+<h3>An Application that Uses Color Scales</h3>
+<div id="panel">Drag color here!</div>
+<div id="info"></div>
+</body>
+</html>

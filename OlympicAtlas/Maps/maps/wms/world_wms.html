@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>World WMS Example</title>
+<link rel="stylesheet" href="../../libraries/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+<script src="../../libraries/OpenLayers-2.13.1/OpenLayers.js"></script>
+
+<script type="text/javascript">
+
+function init() {
+	OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3; 
+	OpenLayers.Util.onImageLoadErrorColor = "transparent";
+	var options = {
+		div: 'map',
+		maxResolution: "auto",
+ 		numZoomLevels: 4
+	};
+	var map = new OpenLayers.Map(options);
+	
+	var day= new OpenLayers.Layer.WMS("Day", "http://karlinapp.ethz.ch/cgi-bin/qgis_map_server/europa_diagram/qgis_mapserv.fcgi?", {layers: 'land_ocean_ice', styles: 'default', format: 'image/png'},{tileSize: new OpenLayers.Size(512,512), buffer: 1 });
+	map.addLayer(day);	
+	var clouds= new OpenLayers.Layer.WMS("Clouds", "http://karlinapp.ethz.ch/cgi-bin/qgis_map_server/europa_diagram/qgis_mapserv.fcgi?", {layers: 'land_ocean_ice_cloud', styles: 'default', format: 'image/png'},{tileSize: new OpenLayers.Size(512,512), buffer: 1 });
+	map.addLayer(clouds);
+	var night= new OpenLayers.Layer.WMS("Night", "http://karlinapp.ethz.ch/cgi-bin/qgis_map_server/europa_diagram/qgis_mapserv.fcgi?", {layers: 'land_ocean_ice_lights', styles: 'default', format: 'image/png'},{singleTile: true, ratio: 1});
+	map.addLayer(night);
+	
+	
+	
+	
+	
+
+	var layerswitch = new OpenLayers.Control.LayerSwitcher({'ascending':false}); 	
+	map.addControl(layerswitch); 	
+	layerswitch.maximizeControl();
+	map.zoomToMaxExtent();
+	
+	
+	
+	
+	
+	
+	
+}
+
+</script>
+
+</head>
+<body onload="init()">
+<div id="map" style="position:absolute;left:0;top:0;right:0;bottom:0"></div>
+</body>
+</html>

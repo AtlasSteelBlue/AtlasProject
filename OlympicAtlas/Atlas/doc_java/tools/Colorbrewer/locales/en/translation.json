@@ -1,0 +1,15 @@
+{
+	"app": {
+		"title": "Colorbrewer JS",
+		"copyright": "©2012 Hans Rudolf Bär, Institute of Cartography and Geoinformation",
+		"email": "baer@karto.baug.ethz.ch"
+	},
+	"colorsystems": {
+		"rgbhex": "RGB hexadecimal",
+		"rgbdec": "RGB decimal",
+		"rgbfrac": "RGB fractional",
+		"hsl": "HSL",
+		"hsv": "HSV",
+		"cmyk": "CMYK"
+	}
+}

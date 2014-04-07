@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>OpenLayers Basic Single WMS Example</title>
+<link rel="stylesheet" href="../../../libraries/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+<script src="../../../libraries/OpenLayers-2.13.1/OpenLayers.js"></script>
+
+<script type="text/javascript">
+
+function init() {
+	var map = new OpenLayers.Map('map');
+	var layer = new OpenLayers.Layer.XYZ(
+		"MapBox Streets",
+		[
+			"http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png",
+			"http://b.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png",
+			"http://c.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png",
+			"http://d.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png"
+		], {
+			attribution: "Tiles &copy; <a href='http://mapbox.com/'>MapBox</a> | " + 
+			"Data &copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> " +
+			"and contributors, CC-BY-SA",
+			sphericalMercator: true,
+			wrapDateLine: true,
+			transitionEffect: "resize",
+			buffer: 1,
+			numZoomLevels: 17
+		}
+	);
+	map.addLayer(layer);
+	map.zoomToMaxExtent();
+}
+
+</script>
+
+</head>
+<body onload="init()">
+<div id="map" style="position:absolute;left:0;top:0;right:0;bottom:0"></div>
+</body>
+</html>

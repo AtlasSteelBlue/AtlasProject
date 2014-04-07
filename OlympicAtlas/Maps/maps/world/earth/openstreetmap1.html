@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>OpenLayers Basic Single WMS Example</title>
+<link rel="stylesheet" href="../../../libraries/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+<script src="../../../libraries/OpenLayers-2.13.1/OpenLayers.js"></script>
+
+<script type="text/javascript">
+
+var map, layer;
+
+function init() {
+	map = new OpenLayers.Map('map');
+	layer = new OpenLayers.Layer.OSM("Simple OpenStreetMap");
+	map.addLayer(layer);
+	map.addControl(new OpenLayers.Control.Graticule({
+		lineSymbolizer: new OpenLayers.Symbolizer.Line({ strokeWidth: 0.15 }),
+		labelSymbolizer: new OpenLayers.Symbolizer.Text({ fontFamily: 'sans-serif', fontSize: '9px' })
+	}));
+	map.addControl(new OpenLayers.Control.LayerSwitcher({
+		roundedCorner: true
+	}));
+	map.addControl(new OpenLayers.Control.OverviewMap({
+		maximized: true
+	}));
+	
+	// map.zoomToMaxExtent();
+		
+	map.setCenter(new OpenLayers.LonLat(8, 47).transform(
+	    new OpenLayers.Projection("EPSG:4326"),
+	    map.getProjectionObject()
+	), 8);
+}
+
+</script>
+
+</head>
+<body onload="init()">
+<div id="map" style="position:absolute;left:0;top:0;right:0;bottom:0"></div>
+</body>
+</html>

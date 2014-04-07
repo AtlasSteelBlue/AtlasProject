@@ -1,0 +1,52 @@
+<html>
+  <title>Hello World, World!</title>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+	  var ge;
+	  google.load("earth", "1");
+
+	  function init() {
+	    google.earth.createInstance('map3d', initCB);
+	  }
+
+	  function initCB(instance) {
+	    ge = instance;
+	    ge.getWindow().setVisibility(true);  
+	  
+	    addPlacemark();
+	    setStartingPosition();
+	  }
+	
+	  function setStartingPosition() {
+		var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+
+		lookAt.setLatitude(47.408937);
+		lookAt.setLongitude(8.507234);
+		lookAt.setRange(1000);
+
+		ge.getView().setAbstractView(lookAt);
+	  }	
+
+	  function addPlacemark() {  
+	    var placemark = ge.createPlacemark('');
+	  
+	    var point = ge.createPoint('');
+	    point.setLatitude(47.408937);
+	    point.setLongitude(8.507234);
+	    placemark.setGeometry(point);
+	  
+	    placemark.setName("HIL G22 / G21");
+	    placemark.setDescription("Hello World!");
+
+	    ge.getFeatures().appendChild(placemark);
+	  }
+
+	  google.setOnLoadCallback(init);
+    </script>
+
+  </head>
+  <body style="margin: 0">
+    <div id="map3d"></div>
+  </body>
+</html>

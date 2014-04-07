@@ -1,0 +1,59 @@
+body.colorbrewer {
+	font-family: 'Lucida Grande', sans-serif;
+	font-size: 80%;
+	margin: 20px;
+}
+
+.colorbrewer .title {
+	background-color: #eee;
+	padding: 5px;
+	border-radius: 3px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+.colorbrewer #title {
+	font-weight: bold;
+	font-size: 15px;
+	letter-spacing: 0.8em;
+	color: #d00;
+}
+
+.colorbrewer .schemes {
+	display: inline-block;
+}
+
+.colorbrewer .scheme {
+	margin: 10px 20px 10px 0px;
+	display: inline-block;
+	box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
+	cursor: move;
+}
+
+.colorbrewer .scheme:focus {
+	outline: 2px auto -webkit-focus-ring-color;
+}
+
+.colorbrewer .box {
+	width: 40px;
+	height: 20px;
+}
+
+.colorbrewer table {
+	margin-top: 16px;
+	text-align: center;
+	border-collapse: collapse;
+	box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
+	border: 1px solid #ccc;
+	white-space: nowrap;
+}
+
+.colorbrewer th,td {
+	padding: 5px 10px 5px 10px;
+}
+
+.colorbrewer #copyright {
+	margin-top: 16px;
+	font-size: 10px;
+	color: #d00;
+}

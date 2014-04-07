@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<!--
+	Student Project in Multimedia Cartography
+	©2014 Insitute of Cartography and Geoinformation
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<title>BfS - Javascript Shapefile and DBF Loader</title>
+
+<link rel="stylesheet" href="../doc_css/vector-map.css" type="text/css">
+
+<!-- script src="http://openlayers.org/api/OpenLayers.js"></script -->
+<script src="../doc_java/libraries/OpenLayers-2.13.1/OpenLayers.js"></script>
+<script src="../doc_java/libraries/jquery-2.1.0.min.js"></script>
+<script src="../doc_java/scripts/RandomEtc-shapefile-js/lib/binaryajax.js"></script>
+<script src="../doc_java/scripts/RandomEtc-shapefile-js/src/binarywrapper.js"></script>
+<script src="../doc_java/scripts/RandomEtc-shapefile-js/src/shapefile.js"></script>
+<script src="../doc_java/scripts/RandomEtc-shapefile-js/src/dbf.js"></script>
+<script src="../doc_java/scripts/RandomEtc-shapefile-js/src/ol_shapefile.js"></script>
+
+<script type="text/javascript">
+
+window.onload = function() {
+
+	var map, geom, select;
+	var extent = new OpenLayers.Bounds(-200, -120, 200, 120);
+	
+	var ul = $('#list');
+	ul.on('mouseover.list', function(evt) {
+		var feature = geom.getFeatureById(evt.target.id);
+		select.highlight(feature);
+	});
+	ul.on('mouseout.list', function(evt) {
+		var feature = geom.getFeatureById(evt.target.id);
+		select.unhighlight(feature);
+	});
+	ul.on('click.list', function(evt) {
+		var feature = geom.getFeatureById(evt.target.id);
+		var center = feature.geometry.getCentroid();
+		map.setCenter(new OpenLayers.LonLat(center.x, center.y));
+		select.highlight(feature);
+	});
+	
+	var options = {
+		projection: new OpenLayers.Projection("EPSG:4326"),
+		maxExtent: extent,
+		restrictedExtent: extent,
+		units: 'km',
+		fractionalZoom: true,
+		maxScale: 200000,
+		minScale: 1000000,
+		numZoomLevels: 12,
+		controls: []
+	};
+	
+	function strip(text) {
+		return text.replace(/^\s+|\s+$/g, '');
+	}
+	
+	function formatNumber(value) {
+		return ("" + value).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	/* A convenient function that add vector layers to the map. */
+	function addVectorLayer(map, name, url, opts) {
+		var layer = new OpenLayers.Layer.Vector(name, opts);
+		getOpenLayersFeatures(url, function(vectors) {
+			if (opts.hilite) {
+				geom = layer;
+				for (var i = 0; i < vectors.length; ++i) {
+					var vector = vectors[i];
+					var nn = strip(vector.data.values.NAME);
+					$('<li/>').attr('id', vector.id).text(nn).appendTo(ul);
+				}
+				// Sort the list
+				var li = ul.children('li').get();
+				li.sort(function(a, b) {
+					return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
+				})
+				$.each(li, function(idx, itm) { ul.append(itm); });
+				// Enable selection
+				var control = new OpenLayers.Control.SelectFeature(layer, opts.hilite);
+				select = control;
+				map.addControl(control);
+				control.activate();
+			}
+			layer.addFeatures(vectors);
+		});
+		map.addLayer(layer);
+	}
+	
+    var onReport = function(e) {
+		$('#info').text(strip(e.feature.data.values.NAME));
+    };
+
+    var offReport = function(e) {
+		$('#info').text('');
+	};
+
+	var hilite = {
+		hover: true,
+		highlightOnly: true,
+		renderIntent: "temporary",
+		selectStyle: { fillColor: '#ca8', strokeColor: '#f00', strokeWidth: 5.0, fillOpacity: 0.35, strokeOpacity: 0.35 },
+		eventListeners: {
+			featurehighlighted: onReport,
+			featureunhighlighted : offReport
+		}
+	};
+    
+	map = new OpenLayers.Map('map', options);
+	map.addControl(new OpenLayers.Control.Navigation({ documentDrag: true }));
+	map.addControl(new OpenLayers.Control.PanZoomBar({ slideRatio: 0.1, fractionalZoom: true }));
+	map.addControl(new OpenLayers.Control.KeyboardDefaults()); 
+	map.addControl(new OpenLayers.Control.MousePosition({
+		numDigits: 0,
+		formatOutput: function(lonLat) {
+			console.log(lonLat);
+			return formatNumber(Math.round(lonLat.lon)) + ' / ' + formatNumber(Math.round(lonLat.lat));
+		}
+	}));
+
+	map.addControl(new OpenLayers.Control.LayerSwitcher());
+	
+	
+
+	//addVectorLayer(map, "Africa", 'bfs/gd-b-00/g3g09_shp_090626/Africa', {
+	//	style: { fillColor: '#ec8', strokeColor: '#484', strokeWidth: 0.35, fillOpacity: 1 }, displayInLayerSwitcher: false, hilite: hilite });
+	var world_example = new OpenLayers.Layer.WMS("QGIS", "http://wms.qgiscloud.com/qgis2/mmkarto2014g3/Worldmap?", {layers: 'Worldmap', SRS: 'EPSG:4326', format: 'image/png'},{tileSize: new OpenLayers.Size(1024,1024), buffer: 1 });
+	map.addLayer(world_example); 
+	addVectorLayer(map, "Continent", './doc_shp/continent_simpl', {
+		style: { fillColor: '#fff', strokeColor: '#484', strokeWidth: 0.01, fillOpacity: 0.01}, displayInLayerSwitcher: true, visibility: true, hilite: hilite });
+	addVectorLayer(map, "Countries", './doc_shp/TM_WORLD_BORDERS_SIMPL-0.3', {
+		style: { fillColor: '#fff', strokeColor: '#484', strokeWidth: 0.01, fillOpacity: 0.01 }, displayInLayerSwitcher: true, visibility: false, hilite: hilite });
+	
+	map.zoomToMaxExtent();
+}
+
+</script>
+
+</head>
+<body>
+	<div id="map"></div>
+	<div class="panel">
+		<h4 id="title">Index</h4>
+		<div id="info"></div>
+		<div id="index">
+		<ul id="list"></ul>
+	</div>
+</body>
+</html>

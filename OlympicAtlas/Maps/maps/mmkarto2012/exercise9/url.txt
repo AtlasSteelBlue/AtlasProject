@@ -1,0 +1,1 @@
+http://karlinapp.ethz.ch/cgi-bin/qgis_map_server/mmkarto/qgis_mapserv.fcgi?

@@ -1,0 +1,47 @@
+<html>
+<head>
+  <title>Gas Network</title>
+  <style type="text/css">
+	body {
+	  margin: 0;
+	}
+  </style>
+  <script type="text/javascript" src="https://www.google.com/jsapi"> </script>
+  <script type="text/javascript">
+    var ge;
+    google.load("earth", "1");
+
+    function init() {
+      google.earth.createInstance('map3d', initCB, failureCB);
+    }
+
+    function relativeToAbsolutePath(relativePath) {
+        return document.URL.substr(0, 1 + document.URL.lastIndexOf('/')) + relativePath;
+    }
+
+	//source: http://code.google.com/apis/earth/documentation/samples/kml_example.kml
+    function initCB(instance) {
+      ge = instance;
+      ge.getWindow().setVisibility(true);
+	  
+      var link = ge.createLink('');
+	  var href = relativeToAbsolutePath('Gasnetz.kmz');
+	  link.setHref(href);
+
+	  var networkLink = ge.createNetworkLink('');
+	  networkLink.set(link, true, true);
+
+	  ge.getFeatures().appendChild(networkLink);
+    }
+
+    function failureCB(errorCode) {
+    }
+
+    google.setOnLoadCallback(init);
+  </script>
+
+</head>
+<body>
+  <div id="map3d" style="height: 100%; width: 100%"></div>
+</body>
+</html>

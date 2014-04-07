@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>CH WMS Example</title>
+<link rel="stylesheet" href="../../libraries/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+<script src="../../libraries/OpenLayers-2.13.1/OpenLayers.js"></script>
+
+<script type="text/javascript">
+
+function init() {
+	//optional settings for better handling possible WMS errors
+	OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3; 
+	OpenLayers.Util.onImageLoadErrorColor = "transparent";
+	//example options for CH projection
+	var options = {	projection: new OpenLayers.Projection("EPSG:21781"),
+ 			units: "m",
+ 			maxExtent: new OpenLayers.Bounds(420000, 50000, 890000, 340000),
+ 			maxResolution: "auto",
+ 			numZoomLevels: 9,
+ 			restrictedExtent: new OpenLayers.Bounds(450000, 50000, 880000, 330000),
+			allOverlays: true
+ 		       }; 	
+			   
+ 
+            var map = new OpenLayers.Map( 'map' , options); 
+
+
+	var swiss_example = new OpenLayers.Layer.WMS("CHtest", "http://wms.geo.admin.ch/?", {layers: 'ch.swisstopo.geologie-geotechnik-gk500-gesteinsklassierung', SRS: 'EPSG:21781', format: 'image/png'});
+	
+	
+	var overview_wms = new OpenLayers.Layer.WMS( "CH", "http://www.geofoto.ch/cgi/mapserv?", {map: '/home/an/mapserverdata/relief_u_pk_kombi/relief_u_pk_kombi_jpeg.map', layers: 'pk_kombi', format: 'image/jpeg', SRS: 'EPSG:21781' });
+ 	//clone layer example
+	
+	var swiss_wms = overview_wms.clone();	
+	map.addLayer(swiss_wms); 
+		map.addLayer(swiss_example); 
+	// specialist example: WMS feature symbolization with SLD	
+	var kar_wmsb = new OpenLayers.Layer.WMS( "Borders", "http://karlinapp.ethz.ch/cgi-bin/qgis_map_server/europa_diagram/qgis_mapserv.fcgi?", {transparent: "true", format: "image/png", SLD_BODY: "<sld:StyledLayerDescriptor xmlns:sld='http://www.opengis.net/sld' xmlns:ogc='http://www.opengis.net/ogc'><sld:NamedLayer><sld:Name>eu_countries</sld:Name><sld:UserStyle><sld:Name>green</sld:Name><sld:FeatureTypeStyle><sld:Rule><sld:PolygonSymbolizer><sld:Stroke><sld:CssParameter sld:name='stroke'>#00cc00</sld:CssParameter><sld:CssParameter sld:name='stroke-width'>2</sld:CssParameter></sld:Stroke></sld:PolygonSymbolizer></sld:Rule></sld:FeatureTypeStyle></sld:UserStyle></sld:NamedLayer></sld:StyledLayerDescriptor>" }); 	 
+	map.addLayer(kar_wmsb);  
+	map.addControl(new OpenLayers.Control.MousePosition()); 	
+	map.addControl(new OpenLayers.Control.KeyboardDefaults()); 
+	// optional: adding a permalink	
+	var prmlnk = new OpenLayers.Control.Permalink(); 	
+	prmlnk.displayProjection = new OpenLayers.Projection("EPSG:21781"); 	
+	map.addControl(prmlnk); 	
+	//adding an overview map
+	/**var overviewMap = {size: {w: 250, h: 160}, layers: [overview_wms], mapOptions: {projection: new OpenLayers.Projection("EPSG:21781"), units: "m", maxExtent: new OpenLayers.Bounds(420000, 50000, 890000, 340000), numZoomLevels: 1}}; 
+	var overviewMapControl = new OpenLayers.Control.OverviewMap(overviewMap);
+	map.addControl(overviewMapControl);
+	overviewMapControl.maximizeControl(); **/
+	map.zoomToMaxExtent();
+
+	
+	// new
+	
+	
+	
+	
+	var lat            = 107359;
+    var lon            = 638243;
+ 
+    var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+    var toProjection   = new OpenLayers.Projection("EPSG:21781"); // to swiss Projection
+    var position       = new OpenLayers.LonLat(lon, lat);
+
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    map.addLayer(markers);
+    markers.addMarker(new OpenLayers.Marker(position));
+
+	var newl = new OpenLayers.Layer.Text("text", {location:"./testmarker.txt"} );
+    map.addLayer(newl);
+	//marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });
+
+ // new end
+ 
+ 
+ 
+ 
+}
+
+</script>
+
+</head>
+<body onload="init()">
+<div id="map" style="position:absolute;left:0;top:0;right:0;bottom:0"></div>
+</body>
+</html>

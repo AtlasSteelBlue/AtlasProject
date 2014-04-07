@@ -1,0 +1,26 @@
+{
+	"app": {
+		"title": "Colorbrewer JS",
+		"copyright": "©2012 Hans Rudolf Bär, Institut für Kartografie und Geoinformation",
+		"email": "baer@karto.baug.ethz.ch"
+	},
+	"labels": {
+		"num": "Anzahl Klassen",
+		"type": "Art der Daten",
+		"scheme": "Wahl des Farbschemas",
+		"values": "Farbwerte des Schemas"
+	},
+	"options": {
+		"sequential": "sequenziell",
+		"diverging": "divergierend",
+		"qualitative": "qualitativ"
+	},
+	"colorsystems": {
+		"rgbhex": "RGB hexadezimal",
+		"rgbdec": "RGB dezimal",
+		"rgbfrac": "RGB fraktional",
+		"hsl": "HSL",
+		"hsv": "HSV",
+		"cmyk": "CMYK"
+	}
+}

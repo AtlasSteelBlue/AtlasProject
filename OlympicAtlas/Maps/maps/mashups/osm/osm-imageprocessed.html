@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>OpenLayers Image Processing Example</title>
+<link rel="stylesheet" href="../../../libraries/OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+<script src="../../../libraries/OpenLayers-2.13.1/OpenLayers.js"></script>
+
+<script type="text/javascript">
+
+function init() {
+	var map = new OpenLayers.Map('map');
+	var layer1 = new OpenLayers.Layer.OSM('Color Map');
+	var layer2 = new OpenLayers.Layer.OSM('Grayscale Map', null, {
+		eventListeners: {
+			tileloaded: function(evt) {
+				var ctx = evt.tile.getCanvasContext();
+				if (ctx) {
+					var imgd = ctx.getImageData(0, 0, evt.tile.size.w, evt.tile.size.h);
+					var pix = imgd.data;
+					for (var i = 0, n = pix.length; i < n; i += 4) {
+						pix[i] = pix[i + 1] = pix[i + 2] = 0.299 * pix[i] + 0.587 * pix[i + 1] + 0.114 * pix[i + 2];
+					}
+					ctx.putImageData(imgd, 0, 0);
+					ctx.fillText(evt.tile.url, 3, 10);
+					ctx.strokeStyle = '#888';
+					ctx.beginPath();
+					ctx.moveTo(0, ctx.canvas.height);
+					ctx.lineTo(ctx.canvas.width, ctx.canvas.height);
+					ctx.lineTo(ctx.canvas.width, 0);
+					ctx.stroke();
+					evt.tile.imgDiv.removeAttribute("crossorigin");
+					evt.tile.imgDiv.src = ctx.canvas.toDataURL();
+				}
+			}
+		}
+	});
+	var layer3 = new OpenLayers.Layer.OSM('Low Contrast Map', null, {
+		eventListeners: {
+			tileloaded: function(evt) {
+				var ctx = evt.tile.getCanvasContext();
+				if (ctx) {
+					ctx.fillStyle = 'rgba(255,255,255,0.5)';
+					ctx.fillRect(0, 0, evt.tile.size.w, evt.tile.size.h);
+					evt.tile.imgDiv.removeAttribute("crossorigin");
+					evt.tile.imgDiv.src = ctx.canvas.toDataURL();
+				}
+			}
+		}
+	});
+	var layer4 = new OpenLayers.Layer.OSM('High Contrast Map', null, {
+		eventListeners: {
+			tileloaded: function(evt) {
+				var alpha = 2;
+				var ctx = evt.tile.getCanvasContext();
+				if (ctx) {
+					var imgd = ctx.getImageData(0, 0, evt.tile.size.w, evt.tile.size.h);
+					var pix = imgd.data;
+					for (var i = 0, n = pix.length; i < n; i += 4) {
+						pix[i] = 255 * Math.pow(pix[i] / 255, alpha);
+						pix[i + 1] = 255 * Math.pow(pix[i + 1] / 255, alpha);
+						pix[i + 2] = 255 * Math.pow(pix[i + 2] / 255, alpha);
+					}
+					ctx.putImageData(imgd, 0, 0);
+					evt.tile.imgDiv.removeAttribute("crossorigin");
+					evt.tile.imgDiv.src = ctx.canvas.toDataURL();
+				}
+			}
+		}
+	});
+	map.addLayers([layer1, layer2, layer3, layer4]);
+	map.addControl(new OpenLayers.Control.LayerSwitcher({
+		roundedCorner: true
+	}));
+	map.zoomToMaxExtent();
+}
+
+</script>
+
+</head>
+<body onload="init()">
+<div id="map" style="position:absolute;left:0;top:0;right:0;bottom:0"></div>
+</body>
+</html>
